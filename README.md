@@ -73,8 +73,9 @@ Le client est développé avec **Svelte** et utilise **Vite** comme outil de bui
 - Backend & Frontend
 
 ```bash
+npm i
 # Installation des modules bnack et front en même temps grâce à concurrently
-npm run install
+npm run app:install
 # Réinitialisation de ls BDD
 npm run db:reset
 # Démarre les serveurs de dèv front et back, avec concurrently

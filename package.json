@@ -5,11 +5,11 @@
   "scripts": {
     "api:install": "npm i --prefix api",
     "client:install": "npm i --prefix client",
-    "install": "concurrently \"npm run api:install\" \"npm run client:install\"",
+    "app:install": "concurrently \"npm run api:install\" \"npm run client:install\"",
     "api:dev": "npm run dev --prefix api",
     "client:dev": "npm run dev --prefix client",
     "dev": "concurrently \"npm run api:dev\" \"npm run client:dev\"",
-    "db:reset": "npm run db:reset -prefix api"
+    "db:reset": "npm run db:reset --prefix api"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.5",
