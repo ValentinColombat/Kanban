@@ -1,4 +1,4 @@
-async function httpRequest(endpoint, method = 'GET', body) {
+async function httpRequest(endpoint, body, method = 'GET') {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/${endpoint}`, {
         method,
         headers: {

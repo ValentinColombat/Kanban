@@ -13,9 +13,9 @@ import { openModal } from './lib/utils/modal';
 let lists = $state([]);
 
 onMount(() => {
+    // ? On a un problème SQL n+1
+    // https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping
     getLists().then((fetchedLists) => {
-        console.log(fetchedLists);
-
         const promises = fetchedLists.map((list) =>
             getCards(list.id).then((cards) => {
                 list.cards = cards.sort((a, b) => a.position - b.position); // Trier les cartes par la propriété position

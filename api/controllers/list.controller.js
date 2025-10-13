@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { Card, List, Tag } from '../models/index.js';
+import { sanitize } from 'express-xss-sanitizer';
 
 export async function getAll(req, res) {
     const includeOptions = [];
@@ -43,7 +44,9 @@ export async function deleteById(req, res) {
 }
 
 export async function update(req, res) {
-    const [updatedCount, updatedList] = await List.update(req.body, {
+    const data = sanitize(req.body);
+
+    const [updatedCount, updatedList] = await List.update(data, {
         where: { id: req.params.id },
         returning: true,
     });

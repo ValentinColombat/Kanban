@@ -2,7 +2,8 @@ node_modules
 .env
 .vscode
 .idea
-énoncés
+énoncés/e02.md
+énoncés/e03.md
 
 logs
 *.log

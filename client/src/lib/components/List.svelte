@@ -123,7 +123,7 @@ const addCard = async (e) => {
   <div class="flex justify-between items-center relative pb-2">
     <div>
       <h2>
-        <!-- XSS -->
+        <!-- Svelte protège par défaut de la faille XSS, en interprétant pas la balises  -->
         {list.title}
       </h2>
     </div>
