@@ -72,7 +72,7 @@ const addList = async (e) => {
 
 <Navbar />
 
-<!-- {#if isAuthenticated()} -->
+{#if isAuthenticated()}
 <section class="container mx-auto pr-8">
   <div class="flex justify-between mt-4">
     <!-- {#if authStore.user.role.name === "admin"} -->
@@ -127,7 +127,7 @@ const addList = async (e) => {
     {/if}
   </div>
 </section>
-<!-- {:else}
+{:else}
   <section class="container mx-auto pr-8">
     <div class="flex justify-center mt-4">
       <h1 class="text-2xl font-bold">
@@ -135,4 +135,4 @@ const addList = async (e) => {
       </h1>
     </div>
   </section>
-{/if} -->
+{/if}

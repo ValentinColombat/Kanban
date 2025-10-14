@@ -14,9 +14,8 @@ User.init(
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,
-            // ! retrouver le truc pour gérer le minimum
             validate: {
-                len: [2, 100],
+                len: [2],
             },
         },
         password: {

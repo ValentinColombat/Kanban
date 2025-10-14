@@ -3,8 +3,8 @@
 import { Card } from './card.model.js';
 import { List } from './list.model.js';
 import { Tag } from './tag.model.js';
-import { sequelize } from './sequelize.client.js';
 import { User } from './user.model.js';
+import { sequelize } from './sequelize.client.js';
 
 // List <--> Card (One-to-Many)
 List.hasMany(Card, {

@@ -1,53 +1,48 @@
 <script>
-  import { getUser, loginUser, registerUser } from "../services/auth.service";
-  import {
-    authStore,
-    clearAuth,
-    isAuthenticated,
-    setAuth,
-  } from "../store/auth.svelte";
-  import { form } from "../store/form.svelte";
-  import { openModal } from "../utils/modal";
-  import ModalForm from "./modals/ModalForm.svelte";
+import { getUser, loginUser, registerUser } from '../services/auth.service';
+import { authStore, clearAuth, isAuthenticated, setAuth } from '../store/auth.svelte';
+import { form } from '../store/form.svelte';
+import { openModal } from '../utils/modal';
+import ModalForm from './modals/ModalForm.svelte';
 
-  const login = async (e) => {
+const login = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const username = formData.get("username");
-    const password = formData.get("password");
+    const username = formData.get('username');
+    const password = formData.get('password');
 
     try {
-      const { token, user } = await loginUser({ username, password });
+        const { token, user } = await loginUser({ username, password });
 
-      // setAuth(user, token);
+        // setAuth(user, token);
 
-      setAuth(username, token);
+        setAuth(username, token);
 
-      const modal = document.getElementById(`login`);
-      modal.close(); // Close the modal after adding the list
+        const modal = document.getElementById(`login`);
+        modal.close(); // Close the modal after adding the list
 
-      window.location.reload();
+        window.location.reload();
     } catch (e) {
-      form.error = "Une erreur est survenue lors de la connexion.";
+        form.error = 'Une erreur est survenue lors de la connexion.';
     }
-  };
+};
 
-  const register = async (e) => {
+const register = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const username = formData.get("username");
-    const password = formData.get("password");
+    const username = formData.get('username');
+    const password = formData.get('password');
 
     try {
-      // Call your API to register the user
-      await registerUser({ username, password });
+        // Call your API to register the user
+        await registerUser({ username, password });
 
-      const modal = document.getElementById(`register`);
-      modal.close(); // Close the modal after adding the list
+        const modal = document.getElementById(`register`);
+        modal.close(); // Close the modal after adding the list
     } catch (e) {
-      form.error = "Une erreur est survenue lors de l'inscription.";
+        form.error = "Une erreur est survenue lors de l'inscription.";
     }
-  };
+};
 </script>
 
 <div class="navbar bg-base-100 shadow-sm">
@@ -56,19 +51,19 @@
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
-      <!-- {#if !isAuthenticated()} -->
+      {#if !isAuthenticated()}
       <li>
         <button onclick={() => openModal(`register`)}>Inscription</button>
       </li>
       <li>
         <button onclick={() => openModal(`login`)}>Connexion</button>
       </li>
-      <!-- {:else}
+      {:else}
         <li>
           Hello, {authStore.user.username || "undefined"} !
           <button onclick={clearAuth}>Déconnexion</button>
         </li>
-      {/if} -->
+      {/if}
     </ul>
   </div>
 </div>

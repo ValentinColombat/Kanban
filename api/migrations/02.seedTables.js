@@ -2,16 +2,21 @@ import { Card, List, Tag, User, sequelize } from '../models/index.js';
 import * as argon2 from 'argon2';
 
 console.log('🚧 Ajout de deux Users..');
-await User.bulkCreate([
-    {
-        username: '',
+
+//  ! validation ne marche pas avec bulkCreate
+try {
+    await User.create({
+        username: 'aa',
         password: await argon2.hash('password123'),
-    },
-    {
-        username: 'André',
-        password: await argon2.hash('azerty123!'),
-    },
-]);
+    });
+} catch (error) {
+    console.error(error.message);
+}
+
+await User.create({
+    username: 'André',
+    password: await argon2.hash('azerty123!'),
+});
 
 console.log('🚧 Les Users ont été ajouté');
 

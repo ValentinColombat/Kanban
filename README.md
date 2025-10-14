@@ -81,3 +81,9 @@ npm run db:reset
 # Démarre les serveurs de dèv front et back, avec concurrently
 npm run dev
 ```
+
+## PostgreSQL
+
+### Astuce
+
+Si on a une table "user" au singulier et en minusucule, il faudra faire attention à mettre des doubles guillemets quand on fait des requêtes à la main, sinon psql ira demander le nom de l'utilisateur de la BDD.
