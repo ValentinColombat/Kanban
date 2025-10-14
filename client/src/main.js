@@ -1,10 +1,8 @@
 import { mount } from "svelte";
-import "./app.css";
-import "./md.css";
 import App from "./App.svelte";
 
-const app = mount(App, {
-  target: document.getElementById("app"),
-});
+import "./assets/reset.css";
+import "./assets/app.css";
 
-export default app;
+const target = document.getElementById("app");
+mount(App, { target });
