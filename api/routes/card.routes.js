@@ -7,6 +7,7 @@ const cardRouter = Router();
 
 cardRouter.get('/', getAll);
 cardRouter.get('/:id', validateId, getById);
+
 cardRouter.post('/', validateCardCreation, create);
 cardRouter.patch('/:id', validateId, validateCardUpdate, update);
 cardRouter.delete('/:id', validateId, deleteById);

@@ -5,10 +5,10 @@ export function isAdmin(req, res, next) {
     const userRole = req.userRole;
 
     if (userRole === 'admin') {
-        next();
-    } else {
-        throw new HttpForbiddenError('You must be admin to access this route');
+        return next();
     }
+
+    throw new HttpForbiddenError('You must be admin to access this route');
 
     // Récupérer le ROLE de l'utilisateur :
     // - soit on va le chercher en BDD (on a l'ID -> donc on peut avoir le user au complet -> donc son role)

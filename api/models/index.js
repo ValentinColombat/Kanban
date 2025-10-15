@@ -5,6 +5,7 @@ import { List } from './list.model.js';
 import { Tag } from './tag.model.js';
 import { User } from './user.model.js';
 import { sequelize } from './sequelize.client.js';
+import { Role } from './role.model.js';
 
 // List <--> Card (One-to-Many)
 List.hasMany(Card, {
@@ -34,5 +35,21 @@ Tag.belongsToMany(Card, {
     foreignKey: 'tag_id',
 });
 
-// Exporter nos modèles
-export { Card, List, Tag, User, sequelize };
+//  One To Many
+Role.hasMany(User, {
+    foreignKey: 'role_id',
+    // ? users est au pluriel car un rôle aura une clé users qui contiendra un tableau de plusieurs utilisateurs
+    as: 'users',
+});
+
+// On peut accéder à this.role car l'alias donné est role
+// get roleName() {
+//     return this.role.name
+// }
+
+User.belongsTo(Role, {
+    foreignKey: 'role_id',
+    as: 'role',
+});
+
+export { Card, List, Tag, User, Role, sequelize };

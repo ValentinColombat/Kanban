@@ -2,7 +2,13 @@ import { DataTypes, Model } from 'sequelize';
 import { sequelize } from './sequelize.client.js';
 
 //
-class User extends Model {}
+class User extends Model {
+    // ? accesseur/getter qui va permettre de lire une propriété dynamique comme si c'était une propriété propre à l'objet User
+    // ? On peut accéder à this.role car l'alias donné dans le fichier des associations est 'role'
+    get roleName() {
+        return this.role.name;
+    }
+}
 
 //
 User.init(
@@ -22,6 +28,7 @@ User.init(
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        role_id: DataTypes.INTEGER,
     },
     // * le 2nd objet est la configuration du modèle (comment se connecter à la BDD, comment se nomme la table sur laquelle agit le modèle)
     {
