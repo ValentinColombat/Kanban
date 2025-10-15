@@ -45,9 +45,16 @@ export async function login(req, res) {
 
         // * Création du token
         // * Le premier argument est le payload : les données qu'on met dans le token.
-        const token = jwt.sign({ user_id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: '1h',
-        });
+        // * https://fr.wikipedia.org/wiki/Chiffrement_par_d%C3%A9calage : bonus : implémenter cet algo en JS. (il faudra convertir les caractères en nombre (ascci table)) https://www.asciitable.com/
+        const token = jwt.sign(
+            // ? le payload: ce sont les infos que contient le token
+            { user_id: user.id, username: user.username },
+            // ? la SECRET est la clé de chiffrement des données
+            process.env.JWT_SECRET,
+            {
+                expiresIn: '1h',
+            },
+        );
 
         res.status(StatusCodes.OK).json({ token });
     } catch (error) {
@@ -57,4 +64,10 @@ export async function login(req, res) {
 
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' });
     }
+}
+
+// TODO
+export async function getCurrentUserInfo(req, res) {
+    //
+    res.json({ message: 'ok' });
 }

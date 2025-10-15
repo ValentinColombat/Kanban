@@ -56,3 +56,11 @@ export async function update(req, res) {
     const updatedItem = updatedList[0];
     res.status(StatusCodes.OK).json(updatedItem);
 }
+
+export async function getAllWithCardsAndTags(req, res) {
+    const lists = await List.findAll({
+        include: 'cards',
+    });
+
+    res.json(lists);
+}
