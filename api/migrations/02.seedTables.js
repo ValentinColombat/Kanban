@@ -1,13 +1,19 @@
-import { Card, List, Tag, User, sequelize } from '../models/index.js';
+import { Card, List, Role, Tag, User, sequelize } from '../models/index.js';
 import * as argon2 from 'argon2';
+
+console.log('🚧 Ajout de deux Rôles..');
+const memberRole = await Role.create({ name: 'member' });
+const adminRole = await Role.create({ name: 'admin' });
+console.log('🚧 Les Rôles ont été ajouté');
 
 console.log('🚧 Ajout de deux Users..');
 
 //  ! validation ne marche pas avec bulkCreate
 try {
     await User.create({
-        username: 'aa',
-        password: await argon2.hash('password123'),
+        username: 'lorenzo',
+        password: await argon2.hash('secret'),
+        role_id: adminRole.id,
     });
 } catch (error) {
     console.error(error.message);
@@ -15,7 +21,8 @@ try {
 
 await User.create({
     username: 'André',
-    password: await argon2.hash('azerty123!'),
+    password: await argon2.hash('secret'),
+    role_id: memberRole.id,
 });
 
 console.log('🚧 Les Users ont été ajouté');

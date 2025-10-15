@@ -7,6 +7,7 @@ const authRouter = Router();
 
 // ? les URLs sont préfixées avec /auth
 authRouter.get('/me', isAuthed, getCurrentUserInfo);
+
 authRouter.post('/register', validateAuthField, register);
 authRouter.post('/login', validateAuthField, login);
 

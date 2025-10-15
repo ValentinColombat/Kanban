@@ -1,4 +1,4 @@
-import { User } from '../models/index.js';
+import { Role, User } from '../models/index.js';
 import jwt from 'jsonwebtoken';
 import * as argon2 from 'argon2';
 import { StatusCodes } from 'http-status-codes';
@@ -9,7 +9,9 @@ export async function register(req, res) {
 
     try {
         const hash = await argon2.hash(password);
-        const user = await User.create({ username: username, password: hash });
+        const memberRole = await Role.findOne({ where: { name: 'member' } });
+
+        const user = await User.create({ username: username, password: hash, role_id: memberRole.id });
         // const user = await User.create({ username, password: hash });
 
         res.status(StatusCodes.CREATED).json({ id: user.id, username: user.username });
@@ -27,7 +29,12 @@ export async function login(req, res) {
     const { username, password } = req.body;
 
     try {
-        const user = await User.findOne({ where: { username: username } });
+        const user = await User.findOne({
+            where: {
+                username: username,
+            },
+            include: 'role',
+        });
 
         if (!user) {
             return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Pseudo ou mot de passe invalide' });
@@ -48,7 +55,12 @@ export async function login(req, res) {
         // * https://fr.wikipedia.org/wiki/Chiffrement_par_d%C3%A9calage : bonus : implémenter cet algo en JS. (il faudra convertir les caractères en nombre (ascci table)) https://www.asciitable.com/
         const token = jwt.sign(
             // ? le payload: ce sont les infos que contient le token
-            { user_id: user.id, username: user.username },
+            {
+                user_id: user.id,
+                username: user.username,
+                role: user.roleName,
+            },
+
             // ? la SECRET est la clé de chiffrement des données
             process.env.JWT_SECRET,
             {
@@ -56,7 +68,17 @@ export async function login(req, res) {
             },
         );
 
-        res.status(StatusCodes.OK).json({ token });
+        // * Ajout de l'user sur la réponse
+        res.status(StatusCodes.OK).json({
+            token,
+            user: {
+                id: user.id,
+                role: user.role,
+                username: user.username,
+                created_at: user.created_at,
+                updated_at: user.updated_at,
+            },
+        });
     } catch (error) {
         if (error.name === 'SequelizeUniqueConstraintError') {
             return res.status(StatusCodes.CONFLICT).json({ error: 'Username exists' });
@@ -66,8 +88,14 @@ export async function login(req, res) {
     }
 }
 
-// TODO
 export async function getCurrentUserInfo(req, res) {
-    //
-    res.json({ message: 'ok' });
+    const userId = req.userId;
+
+    // ? On précise que l'on ne veut pas récupérer le mot de passe
+    const user = await User.findByPk(userId, {
+        attributes: { exclude: ['password'] },
+        include: 'role',
+    });
+
+    res.json(user);
 }

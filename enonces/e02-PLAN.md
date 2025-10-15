@@ -40,3 +40,37 @@ Tu devras probablement intervenir dans les fichiers suivants :
 ### Syndrome de la page blanche
 
 ? Par ou on commence ?
+
+Ajoute une entité `Role` permettant de distinguer les types d’utilisateurs.
+
+Tâches à effectuer :
+
+- Créer un modèle Sequelize pour `Role`
+- Relier `User` à `Role` via une relation `belongsTo`
+  - Faire une `association` entre `User` et `Role`
+  - Cardinalités : One to Many :
+    - Un User pourra avoir un rôle maximum et aura un rôle par défaut.
+    - Un rôle sera attribué à nombre N d'utilisateurs. (N étant le maximum)
+- Mettre à jour la base de données.
+- Ajouter quelques rôles de base (`member`, `admin`) dans le fichier de seeding.
+- Lors de l'inscription d’un nouvel utilisateur, il doit avoir automatiquement le rôle `member`.
+- Inclure le rôle dans la réponse de la route `/auth/me`.
+
+- Tu devras avoir deux rôles ajoutés à la base de données (utilise le seeding 💪) :
+
+```js
+{
+    id: 1,
+    name: "admin",
+},
+{
+    id: 2,
+    name: "user",
+}
+```
+
+**Tests attendus** :
+
+- les rôles sont présents dans la BDD
+- les utilisateurs possèdent chacun un rôle
+- la route `/auth/me` renvoie aussi le rôle associé.
