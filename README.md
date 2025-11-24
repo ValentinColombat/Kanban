@@ -1,93 +1,184 @@
 # O'Kanban
 
-## NEW FRONT
+Application de gestion de tâches de type Kanban (inspirée de Trello) avec système d'authentification et gestion des rôles. Projet pédagogique axé sur la sécurité web et les bonnes pratiques de développement.
 
-<https://kourou.oclock.io/o-challenge/?ref=Ty1jbG9jay1EdW5kZWUvU0IwNy1va2FuYmFufE8tY2xvY2stRHVuZGVlfFNCMDdFMDMtb2thbmJhbi1uZXctZnJvbnR8MjAyNS0xMC0xNlQwOTowMHw=>
+## 🎯 Objectifs du projet
 
-O'Kanban est une application de gestion de tâches inspirée des tableaux Kanban. Elle permet de créer, organiser et gérer des listes et des cartes. Ce projet est divisé en deux parties : une API backend et un client frontend.
+- Implémenter un système d'authentification sécurisé avec JWT
+- Mettre en place un système de rôles (admin, membre)
+- Se prémunir des failles de sécurité les plus courantes (XSS, injection, etc.)
+- Créer une application full-stack moderne et fonctionnelle
 
-## 📝 Description du projet
+## ✨ Fonctionnalités
 
-### API Backend
+### Gestion de tâches Kanban
 
-L'API backend est construite avec **Node.js**, **Express** et **Sequelize** pour gérer les données dans une base de données PostgreSQL. Elle expose des endpoints pour gérer les listes, les cartes et les tags.
+- **Listes** : Créer, modifier, supprimer et réorganiser des listes (colonnes) par drag-and-drop
+- **Cartes** : Ajouter des cartes dans les listes, les déplacer entre listes, personnaliser leur couleur
+- **Tags** : Catégoriser les cartes avec des tags personnalisables (nom et couleur)
+- **Drag & Drop** : Interface intuitive pour réorganiser listes et cartes
 
-### Client Frontend
+### Authentification et sécurité
 
-Le client est développé avec **Svelte** et utilise **Vite** comme outil de build. Il offre une interface utilisateur intuitive pour interagir avec les données fournies par l'API.
+- **Inscription/Connexion** : Système d'authentification avec JWT (expiration après 1h)
+- **Rôles utilisateur** :
+  - **Admin** : Accès complet (CRUD sur les listes, cartes et tags)
+  - **Membre** : Accès lecture seule (visualisation uniquement)
+- **Protection** :
+  - Hashage des mots de passe avec Argon2
+  - Protection XSS sur les entrées utilisateur
+  - Validation des données avec Joi
+  - CORS configuré
+  - Middleware d'autorisation sur les routes sensibles
 
----
-
-## 🚀 Objectifs
-
-- Connaître et savoir se prémunir des failles de sécurité les plus courantes
-- Implémenter un système d'authentification
-- Mettre en place un système de rôles (admin, utilisateur).
-
----
-
-## 🛠️ Technologies utilisées
+## 🛠️ Technologies
 
 ### Backend
 
-- **Node.js**
-- **Express**
-- **Sequelize** (ORM)
-- **PostgreSQL**
-- **Joi** (validation des données)
-- **dotenv** (gestion des variables d'environnement)
+- **Node.js** + **Express** : Serveur API REST
+- **PostgreSQL** : Base de données relationnelle
+- **Sequelize** : ORM pour la gestion de la base de données
+- **JWT** : Authentification par tokens
+- **Argon2** : Hashage sécurisé des mots de passe
+- **Joi** : Validation des requêtes
+- **express-xss-sanitizer** : Protection contre les attaques XSS
 
 ### Frontend
 
-- **Svelte**
-- **Vite**
-- **Tailwind CSS** (avec DaisyUI pour les composants)
-- **svelte-dnd-action** (pour le drag-and-drop)
-- **svelte-exmarkdown** (pour le rendu Markdown)
-
----
+- **Svelte 5** : Framework JavaScript réactif
+- **Vite** : Build tool et serveur de développement
+- **Tailwind CSS** + **DaisyUI** : Styles et composants UI
+- **SortableJS** : Drag-and-drop des listes et cartes
+- **Lucide Icons** : Icônes modernes
 
 ## 📂 Structure du projet
 
-- **`api/`** : Contient le code backend (API).
-- **`client/`** : Contient le code frontend (interface utilisateur).
-- **`énoncés/`** : Contient les exercices quotidiens à réaliser.
+```
+SB07-okanban/
+├── api/                    # Backend (API REST)
+│   ├── controllers/        # Logique métier
+│   ├── models/            # Modèles Sequelize
+│   ├── routes/            # Définition des endpoints
+│   ├── middlewares/       # Auth, validation, erreurs
+│   └── app.js             # Configuration Express
+├── client/                # Frontend (Svelte)
+│   ├── src/
+│   │   ├── components/    # Composants Svelte
+│   │   ├── stores/        # Gestion d'état (auth, kanban)
+│   │   └── services/      # Appels API
+│   └── vite.config.js
+└── énoncés/              # Exercices du projet
+```
 
----
-
-## ⚙️ Installation et lancement
+## 🚀 Installation et lancement
 
 ### Prérequis
 
-- **Node.js** (version 22 ou supérieure)
-- **PostgreSQL** (base de données)
+- **Node.js** v22 ou supérieur
+- **PostgreSQL** installé et en cours d'exécution
 
-### Étapes
+### Étapes d'installation
 
 1. **Cloner le dépôt**
 
 2. **Configurer les variables d'environnement**
 
-- Backend : Copier le fichier `.env.example` dans `api/.env` et configurer les valeurs (notamment PG_URL pour la base de données PostgreSQL).
+   Créer les fichiers `.env` à partir des `.env.example` :
 
-- Frontend : Copier le fichier `.env.example` dans `client/.env` et configurer l'URL de l'API (`VITE_API_URL`).
+   - **Backend** (`api/.env`) : Configurer `PG_URL` avec vos identifiants PostgreSQL
+   - **Frontend** (`client/.env`) : Définir `VITE_API_URL` (par défaut `http://localhost:3000`)
 
-3. **Installer les dépendances et lancer les projets**
+3. **Installer et démarrer**
 
-- Backend & Frontend
+   ```bash
+   # Installation des dépendances front + back
+   npm run app:install
 
-```bash
-npm i
-# Installation des modules bnack et front en même temps grâce à concurrently
-npm run app:install
-# Réinitialisation de ls BDD
-npm run db:reset
-# Démarre les serveurs de dèv front et back, avec concurrently
-npm run dev
+   # Réinitialisation de la base de données (avec données de seed)
+   npm run db:reset
+
+   # Démarrage des serveurs de développement (front + back)
+   npm run dev
+   ```
+
+4. **Accéder à l'application**
+
+   - **Frontend** : http://localhost:5173
+   - **Backend** : http://localhost:3000
+
+### Comptes de test
+
+Après `npm run db:reset`, deux utilisateurs sont disponibles :
+
+- **Admin** : `lorenzo` / mot de passe dans le seeder
+- **Membre** : `André` / mot de passe dans le seeder
+
+## 📊 Base de données
+
+### Modèle de données
+
+- **users** : Utilisateurs avec mots de passe hashés
+- **role** : Rôles (admin, member)
+- **list** : Listes Kanban avec position
+- **card** : Cartes avec contenu, couleur et position
+- **tag** : Tags avec nom et couleur
+- **card_has_tag** : Table de liaison cartes ↔ tags (many-to-many)
+
+### Astuce PostgreSQL
+
+Si vous utilisez une table nommée `user` en minuscules, pensez à utiliser des guillemets doubles dans vos requêtes SQL manuelles :
+
+```sql
+SELECT * FROM "user";
 ```
 
-## PostgreSQL
+## 🔒 Sécurité
 
-### Astuce
+Ce projet met l'accent sur les bonnes pratiques de sécurité :
 
-Si on a une table "user" au singulier et en minusucule, il faudra faire attention à mettre des doubles guillemets quand on fait des requêtes à la main, sinon psql ira demander le nom de l'utilisateur de la BDD.
+- ✅ Authentification JWT avec expiration
+- ✅ Hashage Argon2 (résistant aux rainbow tables)
+- ✅ Protection XSS sur toutes les entrées
+- ✅ Validation stricte des données (Joi schemas)
+- ✅ Autorisation basée sur les rôles (RBAC)
+- ✅ CORS restreint au domaine du frontend
+- ✅ Gestion appropriée des erreurs HTTP
+
+## 🎓 Contexte pédagogique
+
+Ce projet est un exercice de formation O'clock Dundee axé sur :
+
+- L'apprentissage des vulnérabilités web courantes (OWASP Top 10)
+- L'implémentation d'un système d'authentification moderne
+- La création d'une architecture frontend/backend complète
+- Les bonnes pratiques de développement et de sécurité
+
+## 📝 API Endpoints
+
+### Authentication
+- `POST /auth/register` - Inscription
+- `POST /auth/login` - Connexion (retourne un JWT)
+- `GET /auth/me` - Informations utilisateur connecté
+
+### Lists (admin uniquement pour POST/PATCH/DELETE)
+- `GET /lists` - Toutes les listes
+- `GET /lists/expanded` - Listes avec cartes et tags
+- `POST /lists` - Créer une liste
+- `PATCH /lists/:id` - Modifier une liste
+- `DELETE /lists/:id` - Supprimer une liste
+
+### Cards
+- `GET /cards` - Toutes les cartes
+- `POST /cards` - Créer une carte
+- `PATCH /cards/:id` - Modifier une carte
+- `DELETE /cards/:id` - Supprimer une carte
+
+### Tags
+- `GET /tags` - Tous les tags
+- `POST /tags` - Créer un tag
+- `PATCH /tags/:id` - Modifier un tag
+- `DELETE /tags/:id` - Supprimer un tag
+
+## 📄 Licence
+
+Projet éducatif O'clock
