@@ -179,6 +179,3 @@ Ce projet est un exercice de formation O'clock Dundee axé sur :
 - `PATCH /tags/:id` - Modifier un tag
 - `DELETE /tags/:id` - Supprimer un tag
 
-## 📄 Licence
-
-Projet éducatif O'clock
